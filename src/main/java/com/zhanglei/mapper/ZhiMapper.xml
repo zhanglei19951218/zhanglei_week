@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zhanglei.mapper.ZhiMapper">
+	
+	<select id="selects" resultType="com.zhanglei.bean.ZhiWu">
+	SELECT z.*,t.tname from zhiwu z
+LEFT JOIN ztype t
+on z.tid = t.tid
+<where>
+	<if test="zname != null and zname != ''">
+		and zname like concat('%',#{zname},'%') 
+	</if>
+</where>
+	</select>
+	
+	<select id="selectById" resultType="com.zhanglei.bean.ZhiWu">
+	SELECT z.*,t.tname from zhiwu z
+LEFT JOIN ztype t
+on z.tid = t.tid
+where zid=#{zid}
+	</select>
+	
+	<delete id="deleteAll">
+		delete from zhiwu where zid in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>
